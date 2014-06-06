@@ -5,8 +5,8 @@ import pandas as pd
 import pdb
 import sys
 
-training = pd.read_csv("training.csv", index_col = 0)
-test = pd.read_csv("test.csv", index_col = 0)
+training = pd.read_csv("data/training.csv", index_col = 0)
+test = pd.read_csv("data/test.csv", index_col = 0)
 # testdf = pd.read_csv("test.csv")
 
 # print("sample size: {}".format(len(traindf)))
@@ -25,7 +25,7 @@ pdb.set_trace()
 lab_train.iloc[np.where(lab_train == "s")] = 1
 lab_train.iloc[np.where(lab_train == "b")] = 0
 
-y_train = np.mat(lab_train).T
+y_train = lab_train.values
 # m = y.shape[0]
 
 # turn time into integer 
@@ -36,13 +36,16 @@ y_train = np.mat(lab_train).T
 # del traindf["page_global_valid_fault_rate"]
 
 # X = np.mat(np.c_[np.ones(m), traindf.values, m_id_dummy, inttime])
-X_train = np.mat(training.values)
-X_test = np.mat(test.values)
+X_train = training.values
+X_test = test.values
 # X = np.mat(np.c_[training.values])
 
 X_train = X_train.astype(np.float64)
 X_test = X_test.astype(np.float64)
 y_train = y_train.astype(np.float64)
+
+# print("X_train shape: {}".format(X_train.shape))
+# print("Y_train shape: {}".format(y_train.shape))
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-s":
@@ -53,7 +56,7 @@ if __name__ == "__main__":
         print("Y_train shape: {}".format(y_train.shape))
 
         np.save("X_test.npy", X_test)
-        print("Output written:\nX_test.npy")
+        print("\nX_test.npy")
         print("X_test shape: {}".format(X_test.shape))
     else:
         print("no output")
