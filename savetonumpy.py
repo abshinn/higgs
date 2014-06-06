@@ -13,13 +13,18 @@ print 0, len(training.columns)
 #
 # work on features
 #
-lab_train = training.pop("Label")
-weight = training.pop("Weight")
+# lab_train = training.pop("Label")
+# weight = training.pop("Weight")
 
-print 1, len(training.columns)
-print("Feature matrix columns:")
-for col in training.columns:
-    print u"  " + col
+lab_train = training["Label"]
+weight = training["Weight"]
+del training["Label"]
+del training["Weight"]
+
+# for col in training.columns:
+#     print u"  " + col
+print("test columns:")
+print test.columns
 
 lab_train.iloc[np.where(lab_train == "s")] = 1
 lab_train.iloc[np.where(lab_train == "b")] = 0
@@ -27,24 +32,31 @@ lab_train.iloc[np.where(lab_train == "b")] = 0
 y_train = lab_train.values
 weight = weight.values
 
+print 1, len(training.columns)
+print("Feature matrix columns:")
+print training.columns
+
+del training["Label"]
+
 X_train = training.values
 X_test = test.values
 
 print 2, X_train.shape
 
-# pdb.set_trace()
+pdb.set_trace()
 
 X_train = X_train.astype(np.float64)
 X_test = X_test.astype(np.float64)
 y_train = y_train.astype(np.float64)
+weight = weight.astype(np.float64)
 
 # print("X_train shape: {}".format(X_train.shape))
 # print("Y_train shape: {}".format(y_train.shape))
 
 print("X_train shape: {}".format(X_train.shape))
+print("X_test  shape: {}".format(X_test.shape))
 print("Y_train shape: {}".format(y_train.shape))
 print("Weight shape: {}".format(weight.shape))
-
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-s":
