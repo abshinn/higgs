@@ -5,8 +5,8 @@ import pandas as pd
 import pdb
 import sys
 
-training = pd.read_csv("data/training.csv", index_col = 0)
-test = pd.read_csv("data/test.csv", index_col = 0)
+training = pd.read_csv("data/training.csv")
+test = pd.read_csv("data/test.csv")
 
 print 0, len(training.columns)
 
@@ -60,17 +60,17 @@ print("Weight shape: {}".format(weight.shape))
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-s":
-        np.save("X_train.npy", X_train)
-        np.save("Y_train.npy", y_train)
+        np.save("data/X_train.npy", X_train)
+        np.save("data/Y_train.npy", y_train)
         print("Output written: X_train.npy, Y_train.npy")
         print("X_train shape: {}".format(X_train.shape))
         print("Y_train shape: {}".format(y_train.shape))
 
-        np.save("X_test.npy", X_test)
+        np.save("data/X_test.npy", X_test)
         print("Output written: X_test.npy")
         print("X_test shape: {}".format(X_test.shape))
 
-        np.save("weight.npy", weight)
+        np.save("data/weight.npy", weight)
         print("Output written: weight.npy")
         print("Weight shape: {}".format(weight.shape))
     else:

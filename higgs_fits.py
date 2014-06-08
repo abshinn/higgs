@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 import sklearn as sklearn
 from sklearn.preprocessing import scale
 from sklearn.svm import SVC
@@ -40,15 +42,14 @@ def GridSearch_func(model,X,y,params):
 
 if __name__ == "__main__":
 	
-	X = np.load("data2/X_train.npy")
+	X = np.load("data/X_train.npy")
 	print X.shape
 	# X = X[:,2:5]
-	y = np.load("data2/y_train.npy")
+	y = np.load("data/y_train.npy")
 	y = np.squeeze(np.asarray(y))
 	print y.shape
 
 	X = scale(X)
-	y = scale(y)
 
 	# kernels = ['linear', 'poly', 'rbf']
 
@@ -57,15 +58,13 @@ if __name__ == "__main__":
 	# parameters = {'C':[.001,.1,1,1000],'degree':[1,2,3]}
 	parameters = {'C':[.001],'degree':[1]}
 	
-	train_X, test_X, train_y, test_y = train_test_split(X, y, test_size = 0.2)
+	train_X, test_X, train_y, test_y = train_test_split(X, y, test_size = 0.1, random_state = 42)
 
 	# clf_SVC_poly = SVC(kernel='poly')
-	clf = LR()
+	clf = LR(C = 10)
 	# clf.fit(train_X,train_y)
 	scores=cross_val_score(clf,X,y,cv=5,scoring="accuracy")
 	print scores
-
-
 
 	#grid_search = GridSearchCV(pipeline, parameters, cv=5, scoring='roc_auc')
 	# grid_search = GridSearchCV(clf, parameters, cv=5, scoring='roc_auc')
