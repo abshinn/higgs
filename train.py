@@ -4,7 +4,8 @@
 from pprint import pprint
 from time import time
 import logging
-import pdb
+# import pdb
+# import sys
 
 from sklearn.metrics import roc_auc_score
 from sklearn.feature_extraction.text import CountVectorizer
@@ -47,7 +48,7 @@ def train(X, y):
     # increase processing time in a combinatorial way
     parameters = {
 #        'rdge__alpha': (0.01, 0.1, 1, 10),
-        'kNN__n_neighbors': (70,80,90),
+        'kNN__n_neighbors': (55,60,65),
 #         'clf__C': (1, 30),
 #        'clf__penalty': ('l1'),
 #        'clf__n_iter': (10, 50, 80),
@@ -97,7 +98,7 @@ if __name__ == "__main__":
 #     na_class = np.ones(y.shape)
 #     na_class[na_ind[0]] = 0
 #     X = np.c_[X, na_class]
-    na_class = (X == -999.).sum(axis = 1)
+    na_class = np.exp((X == -999.).sum(axis = 1))
     X = np.c_[X, na_class]
 
     print("### scale X ###")

@@ -1,0 +1,27 @@
+train higgs boson data on one model, multiple params...
+
+loaded X, shape: (250000, 31)
+
+### na classifier ###
+### scale X ###
+
+run train on X, y
+X shape: (250000, 32)
+y shape: (250000,)
+
+Performing grid search...
+('pipeline:', ['kNN'])
+parameters:
+{'kNN__n_neighbors': (55, 60, 65)}
+Fitting 3 folds for each of 3 candidates, totalling 9 fits
+done in 1906.412
+
+all scores:
+mean: 0.86268, std: 0.00194, params: {'kNN__n_neighbors': 55}
+mean: 0.86262, std: 0.00205, params: {'kNN__n_neighbors': 60}
+mean: 0.86244, std: 0.00208, params: {'kNN__n_neighbors': 65}
+
+Best score: 0.863
+
+Best parameters set:
+	kNN__n_neighbors: 55
