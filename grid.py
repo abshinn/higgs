@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.7
-"""training higgs boson data..."""
+"""running grid search on higgs boson data..."""
 
 from pprint import pprint
 from time import time
@@ -29,25 +29,11 @@ from sklearn import cross_validation
 import numpy as np
 # import json
 
-
-# def extract_text(df):
-#     labels = df['label']
-#     boilerplate = df['boilerplate']
-#     text_body = boilerplate.apply(lambda x: json.loads(x)['body']).dropna()
-#     joined = pd.concat([text_body, labels], join='inner', axis=1)
-#     return np.array(joined['boilerplate']), np.array(joined['label'])
-
-
 def run_grid(X, y):
     # Display progress logs on stdout
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(levelname)s %(message)s')
 
-    # data = pd.read_table('data/train.tsv')
-    # extract, label = extract_text(data)
-    ###############################################################################
-    # define a pipeline combining a text feature extractor with a simple
-    # classifier
     pipeline = Pipeline([
 #     ('rdge', RidgeClassifier()),
 #     ( 'kNN', KNeighborsClassifier()),
@@ -57,25 +43,16 @@ def run_grid(X, y):
     # uncommenting more parameters will give better exploring power but will
     # increase processing time in a combinatorial way
     parameters = {
-#     'vect__max_df': (0.5, 0.75, 1.0),
-#     'vect__max_features': (None, 5000, 10000, 50000),
-#     'vect__ngram_range': ((1, 1), (1, 2)),  # unigrams or bigrams
-#     'tfidf__use_idf': (True, False),
-#     'tfidf__norm': ('l1', 'l2'),
 #     'rdge__alpha': (0.01, 0.1, 1, 10),
         'clf__C': (0.1, 1, 10),
         'clf__penalty': ('l1', 'l2'),
-        #'clf__n_iter': (10, 50, 80),
     }
+
+    xtrain, xtest, ytrain, ytest = cross_validation.train_test_split(X, y, test_size=0.1, random_state=42)
 
     # multiprocessing requires the fork to happen in a __main__ protected
     # block
-
-    # find the best parameters for both the feature extraction and the
-    # classifier
-    xtrain, xtest, ytrain, ytest = cross_validation.train_test_split(X, y, test_size=0.1, random_state=42)
-
-    grid_search = GridSearchCV(pipeline, parameters, n_jobs=-2, verbose=1, scoring="roc_auc")
+    grid_search = GridSearchCV(pipeline, parameters, n_jobs = -1, verbose = 1, scoring="roc_auc")
 
     print("Performing grid search...")
     print("pipeline:", [name for name, _ in pipeline.steps])
