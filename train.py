@@ -4,6 +4,7 @@
 from pprint import pprint
 from time import time
 import logging
+import pdb
 
 from sklearn.metrics import roc_auc_score
 from sklearn.feature_extraction.text import CountVectorizer
@@ -39,17 +40,17 @@ def train(X, y):
     pipeline = Pipeline([
 #        ('rdge', RidgeClassifier()),
         ( 'kNN', KNeighborsClassifier()),
-#        ( 'clf', LogisticRegression(penalty = 'l1')),
+#         ( 'clf', LogisticRegression(penalty = 'l1')),
     ])
 
     # uncommenting more parameters will give better exploring power but will
     # increase processing time in a combinatorial way
     parameters = {
-#     'rdge__alpha': (0.01, 0.1, 1, 10),
-         'kNN__n_neighbors': (3,5),
-#         'clf__C': (1, 10),
-#         'clf__penalty': ('l1'),
-        #'clf__n_iter': (10, 50, 80),
+#        'rdge__alpha': (0.01, 0.1, 1, 10),
+        'kNN__n_neighbors': (70,80,90),
+#         'clf__C': (1, 30),
+#        'clf__penalty': ('l1'),
+#        'clf__n_iter': (10, 50, 80),
     }
 
     xtrain, xtest, ytrain, ytest = cross_validation.train_test_split(X, y, test_size = 0.1, random_state = 42)
@@ -85,24 +86,22 @@ if __name__ == "__main__":
     
     print("\nloaded X, shape: {}".format(X.shape))
      
-    print("\n### without NA ###")
-    na_ind = np.where(X == -999.)
-    X_na = X[na_ind[0]]
-    y_na = y[na_ind[0]]
-    X = np.delete(X, na_ind[0], axis = 0)
-    y = np.delete(y, na_ind[0], axis = 0)
+#     print("\n### without NA ###")
+#     na_ind = np.where(X == -999.)
+#     X_na = X[na_ind[0]]
+#     y_na = y[na_ind[0]]
+#     X = np.delete(X, na_ind[0], axis = 0)
+#     y = np.delete(y, na_ind[0], axis = 0)
 
-#     print("\n### NA classifier ###")
+    print("\n### na classifier ###")
 #     na_class = np.ones(y.shape)
 #     na_class[na_ind[0]] = 0
+#     X = np.c_[X, na_class]
+    na_class = (X == -999.).sum(axis = 1)
+    X = np.c_[X, na_class]
 
-#     count of NA classifier
-
-    print("\n### scale X ###")
+    print("### scale X ###")
     X = scale(X)
  
     print("\nrun train on X, y\nX shape: {}\ny shape: {}".format(X.shape, y.shape))
     train(X, y)
-
-#     print("\n### with NA ###")
-#     train(X_na, y_na)
