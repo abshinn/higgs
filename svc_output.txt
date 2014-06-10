@@ -1,0 +1,31 @@
+train higgs boson data on one model, multiple params...
+start: 2014-06-10 07:59:41.179001
+
+loaded X, shape: (250000, 31)
+
+### na classifier ###
+### scale X ###
+
+run train on X, y
+X shape: (250000, 32)
+y shape: (250000,)
+
+Performing grid search...
+('pipeline:', ['SVC'])
+parameters:
+{'SVC__C': (0.01, 1, 3, 5, 10)}
+Fitting 3 folds for each of 5 candidates, totalling 15 fits
+done in 4:57:23.115633
+
+all scores:
+mean: 0.85170, std: 0.00222, params: {'SVC__C': 0.01}
+mean: 0.88957, std: 0.00155, params: {'SVC__C': 1}
+mean: 0.89005, std: 0.00138, params: {'SVC__C': 3}
+mean: 0.88998, std: 0.00133, params: {'SVC__C': 5}
+mean: 0.88946, std: 0.00135, params: {'SVC__C': 10}
+
+Best score: 0.890
+
+Best parameters set:
+	SVC__C: 3
+end: 2014-06-10 12:57:28.360462

@@ -2,7 +2,8 @@
 """train higgs boson data on one model, multiple params..."""
 
 from pprint import pprint
-from time import time
+# from time import time
+from datetime import datetime
 import logging
 # import pdb
 # import sys
@@ -19,6 +20,7 @@ from sklearn.preprocessing import scale
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.linear_model import RidgeClassifier
 from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier, LogisticRegression
 from sklearn.linear_model import Perceptron
 from sklearn.linear_model import PassiveAggressiveClassifier
@@ -39,8 +41,10 @@ def train(X, y):
     # define a pipeline combining a text feature extractor with a simple
     # classifier
     pipeline = Pipeline([
-#        ('rdge', RidgeClassifier()),
-        ( 'kNN', KNeighborsClassifier()),
+#         ('rdge', RidgeClassifier()),
+#         ('kNN', KNeighborsClassifier(n_neighbors = 55)),
+#         ('SVC', LinearSVC()),
+        ('SVC', SVC()),
 #         ( 'clf', LogisticRegression(penalty = 'l1')),
     ])
 
@@ -48,10 +52,12 @@ def train(X, y):
     # increase processing time in a combinatorial way
     parameters = {
 #        'rdge__alpha': (0.01, 0.1, 1, 10),
-        'kNN__n_neighbors': (55,60,65),
-#         'clf__C': (1, 30),
+#        'kNN__n_neighbors': (55,60,65),
+#        'clf__C': (1, 30),
 #        'clf__penalty': ('l1'),
 #        'clf__n_iter': (10, 50, 80),
+         'SVC__C': (0.01, 1, 3, 5, 10),
+#          'SVC__loss': ('l1', 'l2'),
     }
 
     xtrain, xtest, ytrain, ytest = cross_validation.train_test_split(X, y, test_size = 0.1, random_state = 42)
@@ -63,9 +69,9 @@ def train(X, y):
     print("pipeline:", [name for name, _ in pipeline.steps])
     print("parameters:")
     pprint(parameters)
-    t0 = time()
+    t0 = datetime.now()
     grid_search.fit(xtrain, ytrain)
-    print("done in {:0.3f}\n".format(time() - t0))
+    print("done in {}\n".format(datetime.now() - t0))
 
     print("all scores:")
     for item in grid_search.grid_scores_:
@@ -79,12 +85,16 @@ def train(X, y):
     
 if __name__ == "__main__":
     print(__doc__)
+    print("start: {}".format(datetime.now()))
 
     # load data
     X = np.load("data/X_train.npy")
     y = np.load("data/y_train.npy")
 #    weight = np.load("data/weight.npy")
-    
+
+#     X = X[0:1000,:]
+#     y = y[0:1000]
+
     print("\nloaded X, shape: {}".format(X.shape))
      
 #     print("\n### without NA ###")
@@ -106,3 +116,4 @@ if __name__ == "__main__":
  
     print("\nrun train on X, y\nX shape: {}\ny shape: {}".format(X.shape, y.shape))
     train(X, y)
+    print("end: {}".format(datetime.now()))
