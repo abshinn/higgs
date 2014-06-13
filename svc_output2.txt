@@ -1,0 +1,32 @@
+train higgs boson data on one model, multiple params...
+
+### loaded X, shape: (250000, 31)
+### na classifier: 1./exp(sum(nans), axis = 1)
+### scale X
+### returning X, y of shapes: (250000, 32), (250000,)
+
+[ start training: 2014-06-11 00:12:40.931004 ]
+
+Performing grid search...
+('pipeline:', ['SVC'])
+parameters:
+{}
+Fitting 3 folds for each of 1 candidates, totalling 3 fits
+done in 1:16:47.942686
+
+all scores:
+mean: 0.89054, std: 0.00141, params: {}
+
+Best score: 0.891
+
+Best parameters set:
+
+[ end training: 2014-06-11 01:29:29.111355 ]
+
+### loaded X_test, shape: (550000, 31)
+### na classifier: 1./exp(sum(nans), axis = 1)
+### scale X
+### returning X_test of shape: (550000, 32)
+ier: 1./exp(sum(nans), axis = 1)
+### scale X
+### returning X_test of shape: (550000, 32)

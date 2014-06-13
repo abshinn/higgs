@@ -33,7 +33,7 @@ pipeline = Pipeline([
 #         ('rdge', RidgeClassifier()),
 #         ('kNN', KNeighborsClassifier(n_neighbors = 55)),
 #         ('SVC', LinearSVC()),
-          ('SVC', SVC()),
+          ('SVC', SVC(C=3)),
 #         ( 'clf', LogisticRegression(penalty = 'l1')),
 ])
 
@@ -45,7 +45,7 @@ parameters = {
 #        'clf__C': (1, 30),
 #        'clf__penalty': ('l1'),
 #        'clf__n_iter': (10, 50, 80),
-         'SVC__C': (3, 4),
+#        'SVC__C': (3, 4),
 #        'SVC__loss': ('l1', 'l2'),
 }
 
